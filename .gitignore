@@ -1,0 +1,8 @@
+.idea/
+.ipynb*/
+__pycache__/
+data/
+pred_img/
+starter_code/
+final_result/
+BCE*.ipynb

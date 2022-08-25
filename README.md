@@ -32,3 +32,49 @@ you can find step-by-step procedure to download dataset.
  5. Not using data augmentation
  
  <img src="./images/UNet_structure.png" width="900" height="600">
+ 
+ Above all, adding Batch Normalization made great improvement in terms of dice score. Next, use padding at each Convolutional layer to avoid unnecessary 
+ cropping also improved the segmentation result. Unlike the original U-net paper suggets, using data augmentation made training hard and even without
+ data augmentation, just following above 5 changes was good enough for achieving good dice score.
+ 
+ ## Train Result
+ 
+ Using ```torch.optim.lr_scheduler.ReduceLROnPlateau``` with initial learning rate 0.0001, below is the train result.
+ 
+ <img src="./images/train_result.png" width="800" height="500">
+
+- - -
+
+## Inference
+ 
+ We achieved ```95.35%``` Dice score on our best model.
+ 
+ And below is the GIF image for the prediction of our model on validation data. 
+ 
+ <img src="./images/gif1.gif" width="400" height="400">              <img src="./images/gif2.gif" width="400" height="400">
+ 
+ Red area represents Groun Truth and Blue area represents predicted kidney area by out best model. 
+ 
+ - - -
+ 
+ ## Code Structure & Explanation
+ 
+ 0. Data download
+ - Download the [data](https://github.com/neheller/kits19) and place the ```data``` folder, which contain folders like 'case_0000/', in the main project directory.
+ 
+ 1. Data Preprocessing
+ - Run ```make_data_npy.ipynb```. It will make ```data_npy``` folder and store preprocessed image as well as segmentation.
+ 
+ 2. Training
+ - Run ```main_train.py```. You can see the tqdm progress bar to see the progress of training.
+ - The training result including model's ```state_dict``` and history will be saved on folder ```final_result```
+ 
+ 3. Dice Score estimation on validation data
+ - Run ```final_score_calculation.ipynb```. You can calculate the dice score on validation data set.
+ - It automatically use the last trained model ```unet.pt```. So if you want to use best model, you have to change it manually.
+ 
+ 4. Inference
+ - Run ```make_pred_image.ipynb```. It will make ```pred_img``` folder and save inference image.
+ - Like the above gif, red area represents ground truth and blue area represents model predicted kidney area.
+ 
+ For those of you, who wants to see the final segmentation image, just go straight to ```step 4```.

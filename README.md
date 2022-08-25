@@ -17,9 +17,7 @@ you can find step-by-step procedure to download dataset.
 <img src="./images/00265.png" width="300" height="300">
 (red represents kidney and blue represents tumor)
 
- In the segmentation, label 0 represents background, 1 represents kidney, and 2 represents tumor. But as I mentioned, sice we are
- 
- interested in kidney segmentation, we replaced label 2 with 1.
+ In the segmentation, label 0 represents background, 1 represents kidney, and 2 represents tumor. But as I mentioned, sice we are interested in kidney segmentation, we replaced label 2 with 1.
  
  ## Model Structure
  
@@ -59,21 +57,21 @@ you can find step-by-step procedure to download dataset.
  
  ## Code Structure & Explanation
  
- 0. Data download
+ ### 0. Data download
  - Download the [data](https://github.com/neheller/kits19) and place the ```data``` folder, which contain folders like 'case_0000/', in the main project directory.
  
- 1. Data Preprocessing
+ ### 1. Data Preprocessing
  - Run ```make_data_npy.ipynb```. It will make ```data_npy``` folder and store preprocessed image as well as segmentation.
  
- 2. Training
+ ### 2. Training
  - Run ```main_train.py```. You can see the tqdm progress bar to see the progress of training.
  - The training result including model's ```state_dict``` and history will be saved on folder ```final_result```
  
- 3. Dice Score estimation on validation data
+ ### 3. Dice Score estimation on validation data
  - Run ```final_score_calculation.ipynb```. You can calculate the dice score on validation data set.
  - It automatically use the last trained model ```unet.pt```. So if you want to use best model, you have to change it manually.
  
- 4. Inference
+ ### 4. Inference
  - Run ```make_pred_image.ipynb```. It will make ```pred_img``` folder and save inference image.
  - Like the above gif, red area represents ground truth and blue area represents model predicted kidney area.
  

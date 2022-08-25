@@ -6,6 +6,6 @@ pred_img/
 starter_code/
 BCE*.ipynb
 final_result/*
-final_result/history.pkl
-final_result/unet.pt
+!final_result/history.pkl
+!final_result/unet.pt
 Untitled*.ipynb

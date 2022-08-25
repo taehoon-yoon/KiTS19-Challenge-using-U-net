@@ -7,25 +7,22 @@ from torchvision import transforms
 
 
 class makeDataset(Dataset):
-    def __init__(self, kind, location, tuning=False, tune_size=0.1, transform=None, normalize=False):
-        '''
+    def __init__(self, kind, location='data_npy', tuning=False, tune_size=0.1, transform=None, normalize=False):
+        """
         kind must be either 'train' or 'valid'
-        location must be either 'data_npy' or 'data_npy_filterd' or 'data_npy_2ch
-        '''
+        """
         self.kind = kind
-        self.root = os.path.join('C:\\', 'Users', 'willy', 'Desktop', 'kits', location, kind)
+        self.root = os.path.join(location, kind)
         self.img_path = os.path.join(self.root, 'image')
         self.seg_path = os.path.join(self.root, 'segmentation')
         self.tuning = tuning
         self.total = 37250 if self.kind == 'train' else 7922
-        if location == 'data_npy_filterd':
-            self.total = 14086
         self.tune_list = []
         self.tune_cnt = 0
         self.transform = transform
         self.normalization = normalize
         if self.normalization:
-            self.normalize = transforms.Normalize((0.5), (0.5))
+            self.normalize = transforms.Normalize((0.5,), (0.5,))
 
         if self.tuning:
             self.tune_cnt = int(self.total * tune_size)

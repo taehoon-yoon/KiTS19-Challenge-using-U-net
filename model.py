@@ -17,7 +17,7 @@ def makeLayerConfigure(start=64, num=4):
         encoder_ch.append(doubles)
 
     decoder_ch = encoder_ch[::-1][:-1]
-    return (encoder_ch, decoder_ch)
+    return encoder_ch, decoder_ch
 
 
 class Block(nn.Module):

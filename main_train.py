@@ -6,6 +6,7 @@ from tqdm import tqdm
 import config
 import torch.nn as nn
 import pickle
+import os
 import matplotlib.pyplot as plt
 from torch.utils.tensorboard import SummaryWriter
 from torch.optim.lr_scheduler import ReduceLROnPlateau
@@ -39,8 +40,8 @@ tr = transforms.Compose([
 ])
 
 # make dataLoader
-trainds = makeDataset(kind='train', location='data_npy_2ch')
-validds = makeDataset(kind='valid', location='data_npy_2ch')
+trainds = makeDataset(kind='train', location='data_npy')
+validds = makeDataset(kind='valid', location='data_npy')
 
 trainLoader = DataLoader(trainds, batch_size=config.BATCH_SIZE, shuffle=True,
                          pin_memory=config.PIN_MEMORY)
@@ -48,6 +49,7 @@ validLoader = DataLoader(validds, batch_size=config.BATCH_SIZE, shuffle=False,
                          pin_memory=config.PIN_MEMORY)
 
 params = [0.0001]
+os.makedirs('final_result', exist_ok=True)
 for (lr_) in params:
     # Define Model################################################################################################
     unet = UNet(64, 5, use_xavier=True, use_batchNorm=True, dropout=0.5, retain_size=True, nbCls=2)
@@ -106,7 +108,7 @@ for (lr_) in params:
 
                 pred = unet(x)
                 validloss = dicelossfunc(pred.clone(), y.clone())
-                totalvalidloss += (validloss)
+                totalvalidloss += validloss
 
                 validScore = diceScore(pred, y)
 
@@ -129,8 +131,8 @@ for (lr_) in params:
 
         writer.add_scalars('loss', {'Train': avgloss, 'Valid': avgvalidloss}, e)
 
-        pbar.set_postfix({'Train_avg_loss': '{:.4f}'.format((avgloss)),
-                          'Valid_avg_loss': '{:.4f}'.format((avgvalidloss)),
+        pbar.set_postfix({'Train_avg_loss': '{:.4f}'.format(avgloss),
+                          'Valid_avg_loss': '{:.4f}'.format(avgvalidloss),
                           'Valid_avg_dice': '{:.4f}%'.format(100 * avgvaliddice)})
 
         torch.save(unet.state_dict(), './final_result/unet_{}.pt'.format(e + 1))

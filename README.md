@@ -31,7 +31,7 @@ you can find step-by-step procedure to download dataset.
  
  <img src="./images/UNet_structure.png" width="900" height="600">
  
- Above all, adding Batch Normalization made great improvement in terms of dice score. Next, use padding at each Convolutional layer to avoid unnecessary 
+ - Above all, adding Batch Normalization made great improvement in terms of dice score. Next, use padding at each Convolutional layer to avoid unnecessary 
  cropping also improved the segmentation result. Unlike the original U-net paper suggets, using data augmentation made training hard and even without
  data augmentation, just following above 5 changes was good enough for achieving good dice score.
  
@@ -75,4 +75,12 @@ you can find step-by-step procedure to download dataset.
  - Run ```make_pred_image.ipynb```. It will make ```pred_img``` folder and save inference image.
  - Like the above gif, red area represents ground truth and blue area represents model predicted kidney area.
  
- For those of you, who wants to see the final segmentation image, just go straight to ```step 4```.
+ For those of you, who wants to see the final segmentation image right away, just go straight to ```step 4```. ```unet.pt``` inside the ```final_result``` is our final trained model.
+ 
+ ## Additional
+ 
+ ### Why using [Generalised Dice score](https://arxiv.org/abs/1707.03237) instead of just vanilla Dice score?
+ 
+ <img src="./images/dice_score.png">
+ 
+- As you can see from the above image, model trained using generalized dice loss is more capable of segmenting smallish area. This is because, generalized dice loss take class imbalance in to account. Looking at the data, you can notice that, compared to background(the area except kidney), there is a small amount of kidney area. So using generalized dice loss improves the model's ability to properly segment kidney from background.

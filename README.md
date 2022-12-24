@@ -83,4 +83,4 @@ you can find step-by-step procedure to download dataset.
  
  <img src="./images/dice_score.png">
  
-- As you can see from the above image, model trained using generalized dice loss is more capable of segmenting smallish area. This is because, generalized dice loss take class imbalance in to account. Looking at the data, you can notice that, compared to background(the area except kidney), there is a small amount of kidney area. So using generalized dice loss improves the model's ability to properly segment kidney from background.
+- As you can see from the above image, model trained using generalized dice loss (right image) is more capable of segmenting smallish area than using vanilla dice loss (left image). This is because, generalized dice loss take class imbalance in to account. Looking at the data, you can notice that, compared to background(the area except kidney), there is a small amount of kidney area. So using generalized dice loss improves the model's ability to properly segment kidney from background.
